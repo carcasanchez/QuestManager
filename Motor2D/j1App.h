@@ -21,15 +21,14 @@ class j1Textures;
 class j1Audio;
 class j1Map;
 class j1PathFinding;
-class j1ParticleManager;
 class j1Gui;
-class j1SceneManager;
-		class j1Scene;
+class j1Scene;
 class j1CollisionManager;
 class j1GameLayer;
-		class j1EntityManager;
+class j1EntityManager;
 class j1Console;
 class j1Render;
+class j1QuestManager;
 
 
 class j1App : public j1Module
@@ -114,14 +113,12 @@ public:
 	j1Audio*			audio = NULL;
 	j1Map*				map = NULL;
 	j1PathFinding*		pathfinding = NULL;
-	j1ParticleManager*	particles = NULL;
 	j1Gui*				gui = NULL;
-	j1SceneManager*		sceneM = NULL;
 	j1CollisionManager*	collisions = NULL;
 	j1GameLayer*		game = NULL;
 	j1Console*			console = NULL;
 	j1Render*			render = NULL;
-
+	j1QuestManager*		quest = NULL;
 	j1Scene*			tmp = NULL;
 
 private:

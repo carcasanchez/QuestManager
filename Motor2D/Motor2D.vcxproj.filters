@@ -91,6 +91,9 @@
     <ClCompile Include="j1Gui.cpp">
       <Filter>Core\Modules\CPP</Filter>
     </ClCompile>
+    <ClCompile Include="j1QuestManager.cpp">
+      <Filter>Core\Modules\CPP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1App.h">

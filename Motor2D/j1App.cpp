@@ -22,6 +22,7 @@
 #include "j1CollisionManager.h"
 #include "j1GameLayer.h"
 #include "j1App.h"
+#include "j1QuestManager.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -45,6 +46,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	console = new j1Console();
 	render = new j1Render();
 	tmp = new j1Scene();
+	quest = new j1QuestManager();
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -60,6 +62,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(pathfinding);
 	AddModule(game);
 	AddModule(gui);
+	AddModule(quest);
 	AddModule(collisions);
 	AddModule(tmp);
 	AddModule(console);

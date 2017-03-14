@@ -2,7 +2,6 @@
 #include "p2Log.h"
 #include "j1App.h"
 #include "j1QuestManager.h"
-#include "j1CollisionManager.h"
 #include "j1FileSystem.h"
 
 
@@ -50,7 +49,39 @@ bool j1QuestManager::Start()
 	}
 
 
+	else for (pugi::xml_node quest = questDataFile.child("quests").first_child(); quest; quest = quest.next_sibling("quest"))
+	{
+		Quest* new_quest = new Quest();
+		new_quest->id = quest.attribute("id").as_int();
+		new_quest->reward = quest.attribute("reward").as_int();
+
+		new_quest->trigger = createEvent(quest.child("trigger"));
+
+		sleepQuests.push_back(new_quest);
+	
+	}
+	
+
+
 	return ret;
+}
+
+Event * j1QuestManager::createEvent(pugi::xml_node &it)
+{
+	//Event factory method
+	int type = it.attribute("type").as_int();
+	switch (type)
+	{
+		case (COLLISION_EVENT):
+			SDL_Rect rect;
+			rect.x = it.child("collider").attribute("x").as_int();
+			rect.y = it.child("collider").attribute("y").as_int();
+			rect.w = it.child("collider").attribute("w").as_int();
+			rect.h = it.child("collider").attribute("h").as_int();
+			CollisionEvent* ret = new CollisionEvent(COLLISION_EVENT, rect);
+			return ret;
+	}
+
 }
 
 
@@ -66,7 +97,6 @@ Quest::~Quest()
 		steps.erase(it);
 	}
 }
-
 
 
 

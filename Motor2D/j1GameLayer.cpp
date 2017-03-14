@@ -41,8 +41,6 @@ bool j1GameLayer::Start()
 
 	em->Create(LINK, 150, 150);
 
-	App->collisions->AddCollider({ 10, 10, 20, 20 }, COLLIDER_WALL, ((j1Module*)App->game));
-
 	return true;
 }
 

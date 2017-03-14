@@ -5,18 +5,18 @@
 #include <list>
 #include <vector>
 #include "p2Point.h"
+#include "j1CollisionManager.h"
 
 class Collider;
-
 enum EVENT_TYPE
 {
-	COLLISION = 0
+	COLLISION_EVENT = 0
 };
 
 class Event
 {
 public:
-	Event() {};
+	Event(EVENT_TYPE type) : type(type) {};
 	~Event() {};
 
 	EVENT_TYPE type;
@@ -25,7 +25,11 @@ public:
 class CollisionEvent : public Event
 {
 public:
-	CollisionEvent() {};
+	CollisionEvent(EVENT_TYPE type, SDL_Rect r) :Event(type) 
+	{
+		col = App->collisions->AddCollider(r, COLLIDER_EVENT);
+	};
+
 	~CollisionEvent() {};
 
 private:
@@ -39,7 +43,8 @@ public:
 	Quest() {};
 	~Quest();
 
-private:
+public:
+	int id;
 	int reward;
 	Event* trigger;
 	vector <Event*> steps;
@@ -55,7 +60,7 @@ public:
 
 	bool Awake(pugi::xml_node&);
 	bool Start();
-
+	Event* createEvent(pugi::xml_node&);
 
 
 private:

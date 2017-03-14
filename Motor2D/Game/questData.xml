@@ -1,0 +1,10 @@
+<!-- Quest Data -->
+<quests>
+	<quest id = "1" reward="300">
+
+		<trigger type ="0">
+     		 <collider x = "0" y= "0" w="10" h="10"/>
+		</trigger>
+	</quest>
+
+</quests>

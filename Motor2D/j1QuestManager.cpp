@@ -57,6 +57,12 @@ bool j1QuestManager::Start()
 
 		new_quest->trigger = createEvent(quest.child("trigger"));
 
+		pugi::xml_node step;
+		for (step = quest.child("step"); step; step = step.next_sibling("step"))
+		{
+			new_quest->steps.push_back(createEvent(step));
+		}
+
 		sleepQuests.push_back(new_quest);
 	
 	}

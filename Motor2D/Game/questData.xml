@@ -3,8 +3,16 @@
 	<quest id = "1" reward="300">
 
 		<trigger type ="0">
-     		 <collider x = "0" y= "0" w="10" h="10"/>
+     			 <collider x = "0" y= "0" w="10" h="10"/>
 		</trigger>
+
+		<step type = "0">
+			<collider x = "0" y= "0" w="10" h="10"/>
+		<step/>
+		<step type = "0">
+			<collider x = "0" y= "0" w="10" h="10"/>
+		<step/>
+
 	</quest>
 
 </quests>

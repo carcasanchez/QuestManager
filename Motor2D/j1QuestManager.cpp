@@ -62,9 +62,7 @@ bool j1QuestManager::Start()
 		{
 			new_quest->steps.push_back(createEvent(step));
 		}
-
-		sleepQuests.push_back(new_quest);
-	
+		sleepQuests.push_back(new_quest);	
 	}
 	
 
@@ -90,6 +88,20 @@ Event * j1QuestManager::createEvent(pugi::xml_node &it)
 
 }
 
+bool j1QuestManager::TriggerCollisionCallback(Collider* c)
+{
+	for (std::list <Quest*>::iterator it = sleepQuests.begin(); it != sleepQuests.end(); it++)
+	{
+		if (((CollisionEvent*)(*it)->trigger)->col == c)
+		{
+			activeQuests.push_back((*it));
+			sleepQuests.erase(it);
+			return true;
+		}
+	}
+
+	return false;
+}
 
 
 //=============================================

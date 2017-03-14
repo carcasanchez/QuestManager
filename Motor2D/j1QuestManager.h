@@ -32,7 +32,6 @@ public:
 
 	~CollisionEvent() {};
 
-private:
 	Collider* col;
 
 };
@@ -62,6 +61,8 @@ public:
 	bool Start();
 	Event* createEvent(pugi::xml_node&);
 
+	//Callbacks for each event type
+	bool TriggerCollisionCallback(Collider* c);
 
 private:
 	string path;
@@ -70,8 +71,7 @@ private:
 	list<Quest*> activeQuests;
 	list<Quest*> closedQuests;
 
-	//bool activateQuest(Quest*);
-	//bool closeQuest(Quest*);
+	
 };
 
 #endif

@@ -5,7 +5,7 @@
 #include "j1CollisionManager.h"
 #include "p2Point.h"
 #include "j1Render.h"
-//#include "Hud.h"
+#include "j1QuestManager.h"
 
 
 // just for temporal wall collider
@@ -92,6 +92,11 @@ bool j1GameLayer::On_Collision_Callback(Collider * c1, Collider * c2 , float dt)
 	{
 		if((*playerId) != nullptr)
 			(*playerId)->currentPos = (*playerId)->lastPos;
+	}
+
+	if (c2->type == COLLIDER_EVENT)
+	{
+		App->quest->TriggerCollisionCallback(c2);
 	}
 
 	return true;

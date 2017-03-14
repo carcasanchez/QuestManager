@@ -25,10 +25,15 @@ bool j1CollisionManager::Awake(pugi::xml_node & config)
 	//Player collisions
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_WALL] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_EVENT] = true;
 
 	//Wall collisions
 	matrix[COLLIDER_WALL][COLLIDER_PLAYER] = true;
 	matrix[COLLIDER_WALL][COLLIDER_WALL] = false;
+
+	//Event Collisions
+	matrix[COLLIDER_EVENT][COLLIDER_PLAYER] = true;
+
 
 	return false;
 }

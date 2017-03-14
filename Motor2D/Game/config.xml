@@ -55,7 +55,8 @@
   </console>
 
   <quest>
-    <path>quests/questData</path>
+ 	<data file = "quests/questData.xml"/>
   </quest>
+  
 
 </config>

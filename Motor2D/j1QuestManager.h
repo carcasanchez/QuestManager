@@ -6,30 +6,43 @@
 #include <vector>
 #include "p2Point.h"
 
+class Collider;
+
+enum EVENT_TYPE
+{
+	COLLISION = 0
+};
 
 class Event
 {
 public:
 	Event() {};
 	~Event() {};
+
+	EVENT_TYPE type;
 };
 
 class CollisionEvent : public Event
 {
-	CollisionEvent(iPoint) {};
+public:
+	CollisionEvent() {};
 	~CollisionEvent() {};
+
+private:
+	Collider* col;
+
 };
 
 class Quest
 {
 public:
 	Quest() {};
-	~Quest(){};
+	~Quest();
 
 private:
 	int reward;
-	Event trigger;
-	vector <Event> steps;
+	Event* trigger;
+	vector <Event*> steps;
 	
 };
 
@@ -42,6 +55,7 @@ public:
 
 	bool Awake(pugi::xml_node&);
 	bool Start();
+
 
 
 private:

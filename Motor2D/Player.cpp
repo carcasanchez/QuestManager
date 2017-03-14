@@ -222,7 +222,6 @@ bool Player::Idle()
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		actionState = WALKING;
-		LOG("Link is WALKING");
 		return true;
 	}
 
@@ -231,7 +230,6 @@ bool Player::Idle()
 		stamina -= attackTax;
 		Change_direction();
 		actionState = ATTACKING;
-		LOG("LINK is ATTACKING");
 		return true;
 	}
 
@@ -277,14 +275,12 @@ bool Player::Walking(float dt)
 	if (moving == false)
 	{
 		actionState = IDLE;
-		LOG("Link is in IDLE");
 		return true;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN && (stamina- dodgeTax >=0))
 	{	
 		stamina -= dodgeTax;
-		LOG("LINK is DODGING");
 		Change_direction();
 		actionState = DODGING;
 		dodgeTimer.Start();
@@ -296,7 +292,6 @@ bool Player::Walking(float dt)
  		stamina -= attackTax;
 		Change_direction();
 		actionState = ATTACKING;
-		LOG("LINK is ATTACKING");
 		return true;
 	}
 
@@ -328,7 +323,6 @@ bool Player::Attacking(float dt)
 	if (currentAnim->isOver())
 	{
 		currentAnim->Reset();
-		LOG("LINK is in IDLE");
 		actionState = IDLE;
 	}
 

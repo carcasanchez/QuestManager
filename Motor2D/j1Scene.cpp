@@ -10,7 +10,9 @@
 #include "j1Map.h"
 #include "j1PathFinding.h"
 #include "j1Gui.h"
+#include "UI_String.h"
 #include "j1Scene.h"
+#include "j1GameLayer.h"
 #include "j1CollisionManager.h"
 
 j1Scene::j1Scene() : j1Module()
@@ -46,7 +48,13 @@ bool j1Scene::Start()
 	}
 
 	debug_tex = App->tex->Load("maps/path2.png");
-	
+
+	 App->gui->CreateScreen(screen);
+	 player_gold = (UI_String*)App->gui->Add_element(STRING, this);
+	 screen->AddChild(player_gold);
+
+	 int g = App->game->gold;
+	 player_gold->Set_String("%i");
 
 	return true;
 }

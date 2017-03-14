@@ -143,7 +143,7 @@ private:
 	pugi::xml_document	map_file;
 	string				folder;
 	bool				map_loaded;
-	bool				debug_collisions = false;
+	bool				debug_collisions = true;
 };
 
 #endif // __j1MAP_H__

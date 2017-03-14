@@ -48,6 +48,8 @@ public:
 private:
 	SDL_Texture* debug_tex;
 
+	UI_element* screen;
+	UI_String* player_gold;
 		
 };
 

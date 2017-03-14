@@ -49,12 +49,15 @@ bool j1Scene::Start()
 
 	debug_tex = App->tex->Load("maps/path2.png");
 
+	 
+    screen = App->gui->Add_element(UNDEFINED, this);
 	 App->gui->CreateScreen(screen);
 	 player_gold = (UI_String*)App->gui->Add_element(STRING, this);
 	 screen->AddChild(player_gold);
 
-	 int g = App->game->gold;
-	 player_gold->Set_String("%i");
+	 p2SString gold;
+	 gold.create("Gold: %i", App->game->gold);
+	 player_gold->Set_String(gold.GetString());
 
 	return true;
 }

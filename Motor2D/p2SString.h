@@ -220,7 +220,7 @@ public:
 		str[0] = '\0';
 	}
 
-	const char* GetString() const
+	char* GetString() const
 	{
 		return str;
 	}

@@ -96,7 +96,8 @@ bool j1GameLayer::On_Collision_Callback(Collider * c1, Collider * c2 , float dt)
 
 	if (c2->type == COLLIDER_EVENT)
 	{
-		App->quest->TriggerCollisionCallback(c2);
+		if(App->quest->TriggerCollisionCallback(c2) == false)
+			App->quest->StepCollisionCallback(c2);
 	}
 
 	return true;

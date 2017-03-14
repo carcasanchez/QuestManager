@@ -35,6 +35,11 @@ public:
 	std::list<Entity*>::iterator playerId;
 
 	bool        pause = false;
+
+
+
+	//Gold
+	int gold = 0;
 };
 
 

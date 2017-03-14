@@ -3,6 +3,7 @@
 #include "j1App.h"
 #include "j1QuestManager.h"
 #include "j1FileSystem.h"
+#include "j1GameLayer.h"
 
 
 j1QuestManager::j1QuestManager() : j1Module()
@@ -88,12 +89,14 @@ Event * j1QuestManager::createEvent(pugi::xml_node &it)
 
 }
 
+//=========== Collision Callbacks
 bool j1QuestManager::TriggerCollisionCallback(Collider* c)
 {
 	for (std::list <Quest*>::iterator it = sleepQuests.begin(); it != sleepQuests.end(); it++)
 	{
 		if (((CollisionEvent*)(*it)->trigger)->col == c)
 		{
+			LOG("Quest Triggered");
 			activeQuests.push_back((*it));
 			sleepQuests.erase(it);
 			return true;
@@ -103,6 +106,33 @@ bool j1QuestManager::TriggerCollisionCallback(Collider* c)
 	return false;
 }
 
+bool j1QuestManager::StepCollisionCallback(Collider * c)
+{
+	for (std::list <Quest*>::iterator it = activeQuests.begin(); it != activeQuests.end(); it++)
+	{
+		CollisionEvent* ev = ((CollisionEvent*)(*it)->steps[0]);
+		if (ev->col == c)
+		{
+			LOG("Step Completed");
+
+			//Erase the first step of the step vector
+			(*it)->steps.erase((*it)->steps.begin());
+
+			//Close the quest if there's no more steps and add reward
+			if ((*it)->steps.size() == 0)
+			{
+				LOG("Quest completed");
+				closedQuests.push_back((*it));
+				activeQuests.erase(it);
+				App->game->gold += (*it)->reward;
+				LOG("Player Gold: %i", App->game->gold);
+			}
+			
+			return true;
+		}
+	}
+	return false;
+}
 
 //=============================================
 

@@ -63,6 +63,7 @@ public:
 
 	//Callbacks for each event type
 	bool TriggerCollisionCallback(Collider* c);
+	bool StepCollisionCallback(Collider* c);
 
 private:
 	string path;

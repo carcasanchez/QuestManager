@@ -1,0 +1,18 @@
+<QUESTS>
+	<Quest number = “1” reward=”300”>
+
+		<Trigger type = “COLLISION”>
+			<Position x = “0” y= “0” w=”10”, h=”10”/>
+		</Trigger>
+
+		<Step type = “COLLISION”>
+			<Position x = “10” y= “30” w=”10”, h=”10”/>
+		</Step>
+
+		<Step type = “COLLISION”>
+			<Position x = “0” y= “0” w=”10”, h=”10”/>
+		</Step>
+
+	</Quest>
+
+</QUESTS>

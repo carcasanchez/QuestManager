@@ -3,7 +3,7 @@
 ## Introduction: a design quest-ion
 Hello there.   
 Im Carlos, game develop student, and former leader of the amateur DuckDev team.   
-Let's talk about the Quest managing in videogames   
+Let's talk about the Quest managing in videogames.   
 Quest managing is a constant interrogant in gamedev forums. There's a lot of questions about quest managing, and even worse: there's a lot of answers. We have no magical algorithm of how to make the perfect quest system, as the needs of each game are different.  
 
 I have done some little research work for my project, and I think i'm ready to share my new acquired knowledge.   
@@ -46,15 +46,33 @@ But there's a thing or two missing, ¿right? ¿Where's the Quest type?¿And the 
 Don't wory. I will explain those soon. Remember that this is a generic Quest class. Let's keep it simple.    
 And, don't be confused with the Id: that's only a number to identify the quest if you need it.   
 
+
+## The Quest Manager Module
+There's no so much difficulty here. The Manager inherits from class Module (as the rest of the Managers), stores all quests and organizes them.   
+We will return later, but there's an important concept: the Three Quest Lists.   
+¿Weren't you wondering why Quests don't have a Type variable by themselves? Well, we don't need it (by now). The manager has three Quest lists, one for each type (Sleep, Active and Closed). Initially, all are stored in the Sleep list. When player activates one quest, the manager moves it to the Active list, and same when a quest is completed.  
+By this metod, we avoid future overlapping errors and save time by iterating only one quest type.
+
 ## Introducing the concept of Event
 Quest managing is all about checking. But, ¿checking what and when? Here's the Event class.     
 The Event is the atomic factor with we will work. The event by itself ony has one variable: an enum with the type of event it is.    
 The magic comes with the heritage. By creating child classes of Event, we have the specific tools we need to check everithing we want to check.    
 
+Class Event    
+{   
+  enum EVENT_TYPE;    
+}    
+ 
 ¿Wanna see if you talked to a specific NPC? Create a TalkEvent class with a pointer to that specific character.   
 ¿Slay some enemies? KillEvent class that contains an enum with the enemy type and an integer with the number of slayed.   
 
 In our case, where we only need to check if our character has in a concrete position in the map. Since working with points is a little akward, we will take use of our Collision Manager (because yes, we have a Collision manager), making a CollisionEvent that contains a Collider (a rectangle in the map). Don't worry about collisions: our Manager is already completed, and you don't need to touch it if you don't want it.
+
+Class CollisionEvent : public Event
+{   
+  Collider col;   
+}   
+
 
 ¿Remember the Trigger and Steps I have commented before? Those are Events. Our Quest class rewrites as:
 
@@ -67,5 +85,7 @@ Class Quest
 };   
 
 Since the steps are fixed variables, we can store them in a std::vector.
+
+
 
 #Page under construction

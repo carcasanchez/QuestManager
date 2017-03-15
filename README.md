@@ -99,22 +99,34 @@ Ok, so, we have Quests that have Events, but they don't do anything by themselve
 # Calling the Callbacks
 
 If you take a look to the Module class, you will see a cute function called OnCollisionCallback. This adorable virtual method is called by the Collision Manager when a collider is hit. Every collider has a pointer to a Module (called "listener"), and every Module has it's own OnCollisionCallback that decides what to do whit that collider. We apply some of this system here.  
-
-
 There are two thing that we want to check: the Trigger and the Steps (both of them, part of the QuestManager class).   
 Why we separate both in different variables and use different Callbacks? Because we want to do different things which each one. 
 
 Trigger Callback iterates the Sleep list, cheking the Trigger variable of each Quest and, if the conditions are happening, move that Quest to the Active list. 
-
 Step Callback does that with the Active list, but cheking the first of the Steps (formely, the current objective inside that quest). If that Step happens to be triggered, we remove it from the vector. Then, if there's no more steps in the vector, we move the quest to the Closed list and add the gold reward to the player pocket.   
-
 The Closed list is never iterated. Sorry, Closed list. Maybe you will found a better place in different modules.   
    
 Important: each type of Event demands different checks, so we need two different Callbacks (Trigger and Step) for every type of event we have created.   
 
-Take this example: if we have created a TalkEvent with a pointer to the NPC we need to talk, the Talk_Callback should be called each time we talk with a NPC. By passing it a pointer to the NPC we have just talked, the Callback iterates Events (if it's the Trigger_TalkCallback, it looks at Triggers of Closed list. If it's the Step_TalkCallback, it checks the first step of Active quests), comparing that NPC to the NPC related to that Event. If the NPC are the same, the TalkCallback do it's work (another time, different work if it's the Trigger or the Step TalkCallback).   
+Take this example:
+
+class TalkEvent: public Event  
+{   
+   NPC* talk_to.   
+}
+
+We have created a TalkEvent with a pointer to the NPC we need to talk. Assuming that all Events inside our quests are TalkEvents, the process would be:
+
+-The Talk_TriggerCallback is called each time we talk with a NPC, and receives a pointer to that NPC.  
+-The Talk_TriggerCallback checks each Trigger of each Sleep quest, comparing the NPC related to that Trigger.
+-If one Trigger NPC and the NPC we have just talked are the same, the Quest is moved to the Active list and stops iteration. If not, Talk_StepCallback is called (and receives the same NPC as argument).   
+-If the Talk_StepCallback is called, do the same as the Talk_TriggerCallback, but comparing the NPC to the ones of each first Step of each vector of each Active quest. 
+-If we found a Quest whose current Step has the NPC we are interested in, delete that Step from the vector (by doing this, the next Step in the vector automatically becomes the first Step)   
+-If there's no more Steps left in the vector, we move the Quest to the Closed list and add the gold reward to the player pocket.   
+
 
 Since we want to check if some Collider has been hit, we have the Collision_TriggerCallback and the Collision_StepCallback. Both are called from the CollisionManager when a Collider is hit by the player, and receives a pointer to that Collider. The Collision Callbacks compares the meant Collider to the ones linked in the CollisionEvents.  
 Be careful when checking Events in Callbacks! Be sure that, before accesing the Event data, its type is the correct.
 
+#TODO's
 #Page under construction

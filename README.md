@@ -1,4 +1,4 @@
-# Quest_Manager
-Design and technical research about quest manager in videogames
+# The Quest for the perfect Quest
+## A talk about Quest Manager system for videogames
 
-Made by Carlos Cabreira
+###Introduction: a design quest-ion

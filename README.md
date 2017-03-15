@@ -118,15 +118,15 @@ class TalkEvent: public Event
 We have created a TalkEvent with a pointer to the NPC we need to talk. Assuming that all Events inside our quests are TalkEvents, the process would be:
 
 -The Talk_TriggerCallback is called each time we talk with a NPC, and receives a pointer to that NPC.  
--The Talk_TriggerCallback checks each Trigger of each Sleep quest, comparing the NPC related to that Trigger.
+-The Talk_TriggerCallback checks each Trigger of each Sleep quest, comparing the NPC related to that Trigger.   
 -If one Trigger NPC and the NPC we have just talked are the same, the Quest is moved to the Active list and stops iteration. If not, Talk_StepCallback is called (and receives the same NPC as argument).   
--If the Talk_StepCallback is called, do the same as the Talk_TriggerCallback, but comparing the NPC to the ones of each first Step of each vector of each Active quest. 
+-If the Talk_StepCallback is called, do the same as the Talk_TriggerCallback, but comparing the NPC to the ones of each first Step of each vector of each Active quest.  
 -If we found a Quest whose current Step has the NPC we are interested in, delete that Step from the vector (by doing this, the next Step in the vector automatically becomes the first Step)   
 -If there's no more Steps left in the vector, we move the Quest to the Closed list and add the gold reward to the player pocket.   
 
-
+   
 Since we want to check if some Collider has been hit, we have the Collision_TriggerCallback and the Collision_StepCallback. Both are called from the CollisionManager when a Collider is hit by the player, and receives a pointer to that Collider. The Collision Callbacks compares the meant Collider to the ones linked in the CollisionEvents.  
 Be careful when checking Events in Callbacks! Be sure that, before accesing the Event data, its type is the correct.
 
-#TODO's
+# TODO's
 #Page under construction

@@ -22,15 +22,15 @@ Don't worry if it seems a little overwhelming: we will go step by step.
 
 ## System Explanation
 Our game is a Zelda-esque adventure, controlled with WASD. Don't blame the map so much: it's enough for what we will doing here.   
-The first point we need to make is concrete our quest design. What states our quests have? How many types of quest we have?¿Can we complete the quest in different ways? How a quest is completed, and what happens then? Templatize our quests and following a pattern is important. 
+The first point we need to make is concrete our quest design. What states our quests have? How many types of quest we have? Can we complete the quest in different ways? How a quest is completed, and what happens then? Templatize our quests and following a pattern is important. 
 
-For the purpose of this tutorial, I have reduced this design to the minimum: 
--Our quests have three states: sleep (the player haven't found the quest yet), active (the player is doing the quest right now), and closed (the quest is finished).
--We can have more than one quest active, but they don't interact between them.
--Our quests consist only in reach a certain point in the map.
--Quests have a Trigger variable to check if it has been activated.
--Quests are divided in Steps (immediate objectives). When a step is complete, player goes to the next. A quest is finished when there's no more steps to do.
--When we finish a quest, the player gains a certain amount of gold as a reward.
+For the purpose of this tutorial, I have reduced this design to the minimum:    
+-Our quests have three states: sleep (the player haven't found the quest yet), active (the player is doing the quest right now), and closed (the quest is finished).   
+-We can have more than one quest active, but they don't interact between them.   
+-Our quests consist only in reach a certain point in the map.   
+-Quests have a Trigger variable to check if it has been activated.   
+-Quests are divided in Steps (immediate objectives). When a step is complete, player goes to the next. A quest is finished when there's no more steps to do.   
+-When we finish a quest, the player gains a certain amount of gold as a reward.   
 
 So, our primitive c++ Quest class could be:
 
@@ -42,7 +42,7 @@ Class Quest
   Amount of gold   
 };
 
-But there's a thing or two missing, ¿right? ¿Where's the Quest type?¿And the state?    
+But there's a thing or two missing, right? Where's the Quest type?¿And the state?    
 Don't wory. I will explain those soon. Remember that this is a generic Quest class. Let's keep it simple.    
 And, don't be confused with the Id: that's only a number to identify the quest if you need it.   
 
@@ -50,7 +50,7 @@ And, don't be confused with the Id: that's only a number to identify the quest i
 ## The Quest Manager Module
 There's no so much difficulty here. The Manager inherits from class Module (as the rest of the Managers), stores all quests and organizes them.   
 We will return later, but there's an important concept: the Three Quest Lists.   
-¿Weren't you wondering why Quests don't have a Type variable by themselves? Well, we don't need it (by now). The manager has three Quest lists, one for each type (Sleep, Active and Closed). Initially, all are stored in the Sleep list. When player activates one quest, the manager moves it to the Active list, and same when a quest is completed.  
+Weren't you wondering why Quests don't have a Type variable by themselves? Well, we don't need it (by now). The manager has three Quest lists, one for each type (Sleep, Active and Closed). Initially, all are stored in the Sleep list. When player activates one quest, the manager moves it to the Active list, and same when a quest is completed.  
 By this metod, we avoid future overlapping errors and save time by iterating only one quest type at time.
 
 QuestManager : public Module     
@@ -82,7 +82,7 @@ Class CollisionEvent : public Event
 }   
 
 
-¿Remember the Trigger and Steps I have commented before? Those are Events. Our Quest class rewrites as:
+Remember the Trigger and Steps I have commented before? Those are Events. Our Quest class rewrites as:
 
 Class Quest      
 {   

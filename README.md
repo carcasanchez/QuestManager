@@ -2,7 +2,7 @@
 
 ## Introduction: a design quest-ion
 Hello there.   
-Im Carlos, game develop student, and former leader of the amateur DuckDev team.   
+I'm Carlos, game develop student, and former leader of the amateur DuckDev team.   
 Let's talk about the Quest managing in videogames.   
 Quest managing is a constant interrogant in gamedev forums. There's a lot of questions about quest managing, and even worse: there's a lot of answers. We have no magical algorithm of how to make the perfect quest system, as the needs of each game are different.  
 

@@ -22,7 +22,7 @@ Don't worry if it seems a little overwhelming: we will go step by step.
 
 ## System Explanation
 Our game is a Zelda-esque adventure, controlled with WASD. Don't blame the map so much: it's enough for what we will doing here.   
-The first point we need to make is concrete our quest design. ¿What states our quests have?¿How many types of quest we have?¿Can we complete the quest in different ways? ¿How a quest is completed, and what happens then? Templatize our quests and following a pattern is important. 
+The first point we need to make is concrete our quest design. What states our quests have? How many types of quest we have?¿Can we complete the quest in different ways? How a quest is completed, and what happens then? Templatize our quests and following a pattern is important. 
 
 For the purpose of this tutorial, I have reduced this design to the minimum: 
 -Our quests have three states: sleep (the player haven't found the quest yet), active (the player is doing the quest right now), and closed (the quest is finished).
@@ -51,7 +51,15 @@ And, don't be confused with the Id: that's only a number to identify the quest i
 There's no so much difficulty here. The Manager inherits from class Module (as the rest of the Managers), stores all quests and organizes them.   
 We will return later, but there's an important concept: the Three Quest Lists.   
 ¿Weren't you wondering why Quests don't have a Type variable by themselves? Well, we don't need it (by now). The manager has three Quest lists, one for each type (Sleep, Active and Closed). Initially, all are stored in the Sleep list. When player activates one quest, the manager moves it to the Active list, and same when a quest is completed.  
-By this metod, we avoid future overlapping errors and save time by iterating only one quest type.
+By this metod, we avoid future overlapping errors and save time by iterating only one quest type at time.
+
+QuestManager : public Module     
+{   
+  list <Quest*> Sleep;   
+  list <Quest*> Active;    
+  list <Quest*> Closed;     
+}
+
 
 ## Introducing the concept of Event
 Quest managing is all about checking. But, ¿checking what and when? Here's the Event class.     
@@ -63,14 +71,14 @@ Class Event
   enum EVENT_TYPE;    
 }    
  
-¿Wanna see if you talked to a specific NPC? Create a TalkEvent class with a pointer to that specific character.   
-¿Slay some enemies? KillEvent class that contains an enum with the enemy type and an integer with the number of slayed.   
+Wanna see if you talked to a specific NPC? Create a TalkEvent class with a pointer to that specific character.   
+Slay some enemies? KillEvent class that contains an enum with the enemy type and an integer with the number of slayed.   
 
 In our case, where we only need to check if our character has in a concrete position in the map. Since working with points is a little akward, we will take use of our Collision Manager (because yes, we have a Collision manager), making a CollisionEvent that contains a Collider (a rectangle in the map). Don't worry about collisions: our Manager is already completed, and you don't need to touch it if you don't want it.
 
 Class CollisionEvent : public Event   
 {   
-  Collider col;   
+  Collider* col;   
 }   
 
 
@@ -86,6 +94,27 @@ Class Quest
 
 Since the steps are fixed variables, we can store them in a std::vector.
 
+Ok, so, we have Quests that have Events, but they don't do anything by themselves. How we check when an event is triggered?
 
+# Calling the Callbacks
+
+If you take a look to the Module class, you will see a cute function called OnCollisionCallback. This adorable virtual method is called by the Collision Manager when a collider is hit. Every collider has a pointer to a Module (called "listener"), and every Module has it's own OnCollisionCallback that decides what to do whit that collider. We apply some of this system here.  
+
+
+There are two thing that we want to check: the Trigger and the Steps (both of them, part of the QuestManager class).   
+Why we separate both in different variables and use different Callbacks? Because we want to do different things which each one. 
+
+Trigger Callback iterates the Sleep list, cheking the Trigger variable of each Quest and, if the conditions are happening, move that Quest to the Active list. 
+
+Step Callback does that with the Active list, but cheking the first of the Steps (formely, the current objective inside that quest). If that Step happens to be triggered, we remove it from the vector. Then, if there's no more steps in the vector, we move the quest to the Closed list and add the gold reward to the player pocket.   
+
+The Closed list is never iterated. Sorry, Closed list. Maybe you will found a better place in different modules.   
+   
+Important: each type of Event demands different checks, so we need two different Callbacks (Trigger and Step) for every type of event we have created.   
+
+Take this example: if we have created a TalkEvent with a pointer to the NPC we need to talk, the Talk_Callback should be called each time we talk with a NPC. By passing it a pointer to the NPC we have just talked, the Callback iterates Events (if it's the Trigger_TalkCallback, it looks at Triggers of Closed list. If it's the Step_TalkCallback, it checks the first step of Active quests), comparing that NPC to the NPC related to that Event. If the NPC are the same, the TalkCallback do it's work (another time, different work if it's the Trigger or the Step TalkCallback).   
+
+Since we want to check if some Collider has been hit, we have the Collision_TriggerCallback and the Collision_StepCallback. Both are called from the CollisionManager when a Collider is hit by the player, and receives a pointer to that Collider. The Collision Callbacks compares the meant Collider to the ones linked in the CollisionEvents.  
+Be careful when checking Events in Callbacks! Be sure that, before accesing the Event data, its type is the correct.
 
 #Page under construction

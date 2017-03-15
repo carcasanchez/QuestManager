@@ -68,7 +68,7 @@ Class Event
 
 In our case, where we only need to check if our character has in a concrete position in the map. Since working with points is a little akward, we will take use of our Collision Manager (because yes, we have a Collision manager), making a CollisionEvent that contains a Collider (a rectangle in the map). Don't worry about collisions: our Manager is already completed, and you don't need to touch it if you don't want it.
 
-Class CollisionEvent : public Event
+Class CollisionEvent : public Event   
 {   
   Collider col;   
 }   
@@ -76,7 +76,7 @@ Class CollisionEvent : public Event
 
 ¿Remember the Trigger and Steps I have commented before? Those are Events. Our Quest class rewrites as:
 
-Class Quest   
+Class Quest      
 {   
   int id;   
   Event* trigger;   

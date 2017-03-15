@@ -128,5 +128,6 @@ We have created a TalkEvent with a pointer to the NPC we need to talk. Assuming 
 Since we want to check if some Collider has been hit, we have the Collision_TriggerCallback and the Collision_StepCallback. Both are called from the CollisionManager when a Collider is hit by the player, and receives a pointer to that Collider. The Collision Callbacks compares the meant Collider to the ones linked in the CollisionEvents.  
 Be careful when checking Events in Callbacks! Be sure that, before accesing the Event data, its type is the correct.
 
+# How to make the XML
 # TODO's
 #Page under construction

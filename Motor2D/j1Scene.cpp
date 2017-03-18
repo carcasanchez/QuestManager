@@ -77,6 +77,10 @@ bool j1Scene::Update(float dt)
 
 	App->map->Draw();
 
+	p2SString gold;
+	gold.create("Gold: %i", App->game->gold);
+	player_gold->Set_String(gold.GetString());
+
 	return true;
 }
 

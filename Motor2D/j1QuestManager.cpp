@@ -166,7 +166,10 @@ bool j1QuestManager::StepCollisionCallback(Collider * c)
 					LOG("Quest completed");
 					closedQuests.push_back((*it));
 					activeQuests.erase(it);
-					App->game->gold += (*it)->reward;
+					
+
+					//Update player gold
+					App->game->gold += (*it)->reward;					
 					LOG("Player Gold: %i", App->game->gold);
 				}
 

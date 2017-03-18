@@ -19,7 +19,7 @@ UI_String::UI_String(const UI_String* other) : UI_element(other->element_type, o
 bool UI_String::Update_Draw()
 {
 	if (active)
-		App->render->Blit(text_texture, Interactive_box.x - App->render->camera.x, Interactive_box.y - App->render->camera.y);
+		App->render->Blit(text_texture, (Interactive_box.x - App->render->camera.x)*0.5, (Interactive_box.y - App->render->camera.y)*0.5);
 
 	Child_Update_Draw();
 

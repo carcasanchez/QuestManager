@@ -241,5 +241,5 @@ Do you want to add more event types? Remember:
 You can tweak and experiment with the system as you want. Try adding fail states to the quests, activating new quests as reward for other quests, or mixing various types of event inside the same quest. The sky is the limit now!
 
 # Farewell
-I hope I've been useful or, at least, entertaining with this little tutorial. Follow me on Github and ask me any question you have about this manager.    
+I hope I've been useful or, at least, entertaining with this little tutorial. Follow me on Github and ask me any question you have about this manager, and follow me on [twitter](https://twitter.com/carcasanchez) if you have any question non related with this manager =)    
 Since then, I have been Carlos, and I hope to see you soon.

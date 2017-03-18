@@ -23,9 +23,9 @@ Don't worry if it seems a little overwhelming: we will go step by step.
 # Resources
 Our game is a Zelda-esque adventure, controlled with WASD. Don't blame the map so much: it's enough for what we will doing here.   
 
-You can download the Handout with TODO's, ready to complete, from here. If you run it, you will see a simple map, with zones in green and red. This is the collision debug mode, and you can turn it off pressing the F1 button (although I don't reccomend to do so, because you will need the debug mode to see the colliders).   
-Also, you can find a Release with the system fully working here, in case that you want to see the result. The quest trigger is the collider at the top, the next step is the next collider below, and the last step is the lowest. After complete the mission, the gold will be displayed in the screen.        
-Last, you can download the entire repositorie. The TODO's are still marked, but the code is complete. If you are stuck in one TODO, you can see the solution from it.
+You can download the Handout with TODO's, ready to complete, from [here](https://github.com/carcasanchez/QuestManager/releases/tag/v2). If you run it, you will see a simple map, with zones in green and red. This is the collision debug mode, and you can turn it off pressing the F1 button (although I don't reccomend to do so, because you will need the debug mode to see the colliders).   
+Also, you can find a Release with the system fully working [here](https://github.com/carcasanchez/QuestManager/releases/tag/v1), in case that you want to see the result. The quest trigger is the collider at the top, the next step is the next collider below, and the last step is the lowest. After complete the mission, the gold will be displayed in the screen.        
+Last, you can download the [entire repository](https://github.com/carcasanchez/QuestManager). The TODO's are still marked, but the code is complete. If you are stuck in one TODO, you can see the solution from it.
 
 
 # Intro to the system

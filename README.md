@@ -24,16 +24,17 @@ Don't worry if it seems a little overwhelming: we will go step by step.
 Our game is a Zelda-esque adventure, controlled with WASD. Don't blame the map so much: it's enough for what we will doing here.   
 The first point we need to make is concrete our quest design. What states our quests have? How many types of quest we have? Can we complete the quest in different ways? How a quest is completed, and what happens then? Templatize our quests and following a pattern is important. 
 
-For the purpose of this tutorial, I have reduced this design to the minimum:    
--Our quests have three states: sleep (the player haven't found the quest yet), active (the player is doing the quest right now), and closed (the quest is finished).   
--We can have more than one quest active, but they don't interact between them.   
--Our quests consist only in reach a certain point in the map.   
--Quests have a Trigger variable to check if it has been activated.   
--Quests are divided in Steps (immediate objectives). When a step is complete, player goes to the next. A quest is finished when there's no more steps to do.   
--When we finish a quest, the player gains a certain amount of gold as a reward.   
+For the purpose of this tutorial, I have reduced this design to the minimum:     
+
+* Our quests have three states: sleep (the player haven't found the quest yet), active (the player is doing the quest right now), and closed (the quest is finished).   
+* We can have more than one quest active, but they don't interact between them.   
+* Our quests consist only in reach a certain point in the map.   
+* Quests have a Trigger variable to check if it has been activated.   
+* Quests are divided in Steps (immediate objectives). When a step is complete, player goes to the next. A quest is finished when there's no more steps to do.   
+* When we finish a quest, the player gains a certain amount of gold as a reward.   
 
 So, our primitive c++ Quest class could be:
-
+ ```
 Class Quest   
 {   
   Id   
@@ -41,7 +42,7 @@ Class Quest
   List of Steps   
   Amount of gold   
 };
-
+  ```
 But there's a thing or two missing, right? Where's the Quest type?¿And the state?    
 Don't wory. I will explain those soon. Remember that this is a generic Quest class. Let's keep it simple.    
 And, don't be confused with the Id: that's only a number to identify the quest if you need it.   
@@ -53,12 +54,14 @@ We will return later, but there's an important concept: the Three Quest Lists.
 Weren't you wondering why Quests don't have a Type variable by themselves? Well, we don't need it (by now). The manager has three Quest lists, one for each type (Sleep, Active and Closed). Initially, all are stored in the Sleep list. When player activates one quest, the manager moves it to the Active list, and same when a quest is completed.  
 By this metod, we avoid future overlapping errors and save time by iterating only one quest type at time.
 
-QuestManager : public Module     
+```
+Class QuestManager : public Module     
 {   
   list <Quest*> Sleep;   
   list <Quest*> Active;    
   list <Quest*> Closed;     
 }
+```
 
 
 ## Introducing the concept of Event
@@ -66,24 +69,29 @@ Quest managing is all about checking. But, ¿checking what and when? Here's the 
 The Event is the atomic factor with we will work. The event by itself ony has one variable: an enum with the type of event it is.    
 The magic comes with the heritage. By creating child classes of Event, we have the specific tools we need to check everithing we want to check.    
 
+```
 Class Event    
 {   
   enum EVENT_TYPE;    
 }    
+```
  
 Wanna see if you talked to a specific NPC? Create a TalkEvent class with a pointer to that specific character.   
 Slay some enemies? KillEvent class that contains an enum with the enemy type and an integer with the number of slayed.   
 
 In our case, where we only need to check if our character has in a concrete position in the map. Since working with points is a little akward, we will take use of our Collision Manager (because yes, we have a Collision manager), making a CollisionEvent that contains a Collider (a rectangle in the map). Don't worry about collisions: our Manager is already completed, and you don't need to touch it if you don't want it.
 
+```
 Class CollisionEvent : public Event   
 {   
   Collider* col;   
 }   
+```
 
 
 Remember the Trigger and Steps I have commented before? Those are Events. Our Quest class rewrites as:
 
+```
 Class Quest      
 {   
   int id;   
@@ -91,6 +99,7 @@ Class Quest
   vector <Event*> steps;   
   int gold;   
 };   
+```
 
 Since the steps are fixed variables, we can store them in a std::vector.
 
@@ -110,24 +119,70 @@ Important: each type of Event demands different checks, so we need two different
 
 Take this example:
 
+```
 class TalkEvent: public Event  
 {   
+
    NPC* talk_to.   
 }
+```
 
 We have created a TalkEvent with a pointer to the NPC we need to talk. Assuming that all Events inside our quests are TalkEvents, the process would be:
 
--The Talk_TriggerCallback is called each time we talk with a NPC, and receives a pointer to that NPC.  
--The Talk_TriggerCallback checks each Trigger of each Sleep quest, comparing the NPC related to that Trigger.   
--If one Trigger NPC and the NPC we have just talked are the same, the Quest is moved to the Active list and stops iteration. If not, Talk_StepCallback is called (and receives the same NPC as argument).   
--If the Talk_StepCallback is called, do the same as the Talk_TriggerCallback, but comparing the NPC to the ones of each first Step of each vector of each Active quest.  
--If we found a Quest whose current Step has the NPC we are interested in, delete that Step from the vector (by doing this, the next Step in the vector automatically becomes the first Step)   
--If there's no more Steps left in the vector, we move the Quest to the Closed list and add the gold reward to the player pocket.   
+1. The Talk_TriggerCallback is called each time we talk with a NPC, and receives a pointer to that NPC.  
+2. The Talk_TriggerCallback checks each Trigger of each Sleep quest, comparing the NPC related to that Trigger.   
+3. If one Trigger NPC and the NPC we have just talked are the same, the Quest is moved to the Active list and stops iteration. If not, Talk_StepCallback is called (and receives the same NPC as argument).   
+4. If the Talk_StepCallback is called, do the same as the Talk_TriggerCallback, but comparing the NPC to the ones of each first Step of each vector of each Active quest.  
+5. If we found a Quest whose current Step has the NPC we are interested in, delete that Step from the vector (by doing this, the next Step in the vector automatically becomes the first Step)   
+6. If there's no more Steps left in the vector, we move the Quest to the Closed list and add the gold reward to the player pocket.   
 
    
 Since we want to check if some Collider has been hit, we have the Collision_TriggerCallback and the Collision_StepCallback. Both are called from the CollisionManager when a Collider is hit by the player, and receives a pointer to that Collider. The Collision Callbacks compares the meant Collider to the ones linked in the CollisionEvents.  
 Be careful when checking Events in Callbacks! Be sure that, before accesing the Event data, its type is the correct.
 
-# How to make the XML
+# Creating quests from a XML file
+This is the XML I'm using in this case: 
+
+```
+<!-- Quest Data -->
+<quests>
+	<quest id = "1" reward="300">
+
+		<trigger type ="0">
+     			 <collider x = "30" y= "30" w="10" h="10"/>
+		</trigger>
+
+		<step type = "0">
+			<collider x = "150" y= "30" w="10" h="10"/>
+		</step>
+		<step type = "0">
+			<collider x = "30" y= "30" w="10" h="10"/>
+		</step>
+
+
+	</quest>
+
+	<quest id = "2" reward="700">
+
+		<trigger type ="0">
+     			 <collider x = "130" y= "130" w="10" h="10"/>
+		</trigger>
+
+		<step type = "0">
+			<collider x = "250" y= "130" w="10" h="10"/>
+		</step>
+		<step type = "0">
+			<collider x = "130" y= "130" w="10" h="10"/>
+		</step>
+
+
+	</quest>
+
+</quests>
+```
+As you see, I have two different quests, with two steps each one. During the first loop of the program, it loads this XML and automatically created one Quest for each one that is written in the text file, and stores them in the Sleep list. Also, there's a method, called CreateEvent, that receives the type of event we want to create. Another time, you must make a case for each type of event, since the info received is different for each one. I have marked each Trigger and Step with a "type = 0", because the CollisionEvent type has value 0 inside the enum. Make sure that our code has a way to recognize what type of event each Trigger and Step is.   
+In our ColliderEvents, the only stored data are four integers (x, y, w, and h). In the CreateEvent method, the CollisionManager receives this numbers and creates a Collider that will be linked to the Event we are created.   
+Coming back to the NPC-Talk example, the CreateEvent could receive the Id of the NPC, search it and store it's direction inside the Event.    
+
 # TODO's
 #Page under construction

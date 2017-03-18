@@ -16,12 +16,17 @@ Let's stop talking. Let's start working.
 ## Code organization
 This tutorial is built in C++. The solution is from Visual Studio, but you can work with it in other software if you take the .h and .cpp files in the Motor2D folder.
 The code is separated in different Modules that works in different areas (one for the renderer, other for the entities...). The Quest Manager is a module itself.  
-There's a extern pointer, called App, from you can access each module and use their methods.   
+There's a extern pointer, called App, from you can access each module.   
 Don't worry if it seems a little overwhelming: we will go step by step. 
 
 
-## System Explanation
+# Resources
 Our game is a Zelda-esque adventure, controlled with WASD. Don't blame the map so much: it's enough for what we will doing here.   
+You can download the Handout with TODO's, ready to complete, from here. Also, you can find a Release with the system fully working here, in case that you want to see the result.   
+Last, you can download the entire repositorie. The TODO's are still marked, but the code is complete. If you are stuck in one TODO, you can see the solution from it.
+
+
+# Intro to the system
 The first point we need to make is concrete our quest design. What states our quests have? How many types of quest we have? Can we complete the quest in different ways? How a quest is completed, and what happens then? Templatize our quests and following a pattern is important. 
 
 For the purpose of this tutorial, I have reduced this design to the minimum:     
@@ -48,7 +53,7 @@ Don't wory. I will explain those soon. Remember that this is a generic Quest cla
 And, don't be confused with the Id: that's only a number to identify the quest if you need it.   
 
 
-## The Quest Manager Module
+# The Quest Manager Module
 There's no so much difficulty here. The Manager inherits from class Module (as the rest of the Managers), stores all quests and organizes them.   
 We will return later, but there's an important concept: the Three Quest Lists.   
 Weren't you wondering why Quests don't have a Type variable by themselves? Well, we don't need it (by now). The manager has three Quest lists, one for each type (Sleep, Active and Closed). Initially, all are stored in the Sleep list. When player activates one quest, the manager moves it to the Active list, and same when a quest is completed.  
@@ -64,7 +69,7 @@ Class QuestManager : public Module
 ```
 
 
-## Introducing the concept of Event
+# Introducing the concept of Event
 Quest managing is all about checking. But, ¿checking what and when? Here's the Event class.     
 The Event is the atomic factor with we will work. The event by itself ony has one variable: an enum with the type of event it is.    
 The magic comes with the heritage. By creating child classes of Event, we have the specific tools we need to check everithing we want to check.    
@@ -185,4 +190,7 @@ In our ColliderEvents, the only stored data are four integers (x, y, w, and h). 
 Coming back to the NPC-Talk example, the CreateEvent could receive the Id of the NPC, search it and store it's direction inside the Event.    
 
 # TODO's
-#Page under construction
+
+Let's dive into the TODO's. TODO's are comments placed in primordial segments of code, and give in instructions to make the system work. Search them with ctrl+SHIFT+F and go in order.
+
+### TODO 1

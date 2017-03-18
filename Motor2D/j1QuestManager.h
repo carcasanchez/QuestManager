@@ -10,6 +10,7 @@
 class Collider;
 enum EVENT_TYPE
 {
+	//Define event types
 	COLLISION_EVENT = 0
 };
 
@@ -25,10 +26,7 @@ public:
 class CollisionEvent : public Event
 {
 public:
-	CollisionEvent(EVENT_TYPE type, SDL_Rect r) :Event(type) 
-	{
-		col = App->collisions->AddCollider(r, COLLIDER_EVENT);
-	};
+	CollisionEvent(EVENT_TYPE type) :Event(type) {};
 
 	~CollisionEvent() {};
 

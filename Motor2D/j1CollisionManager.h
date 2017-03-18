@@ -53,7 +53,7 @@ public:
 private:
 
 	bool matrix[MAX_COLLIDERS][MAX_COLLIDERS];
-	bool debug = false;
+	bool debug = true;
 	std::list <Collider*> colliders;
 };
 

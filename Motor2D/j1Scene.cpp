@@ -53,11 +53,13 @@ bool j1Scene::Start()
     screen = App->gui->Add_element(UNDEFINED, this);
 	 App->gui->CreateScreen(screen);
 	 player_gold = (UI_String*)App->gui->Add_element(STRING, this);
-	 screen->AddChild(player_gold);
+	
 
 	 p2SString gold;
 	 gold.create("Gold: %i", App->game->gold);
 	 player_gold->Set_String(gold.GetString());
+
+	 screen->AddChild(player_gold);
 
 	return true;
 }

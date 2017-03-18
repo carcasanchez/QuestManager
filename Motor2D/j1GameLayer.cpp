@@ -94,11 +94,15 @@ bool j1GameLayer::On_Collision_Callback(Collider * c1, Collider * c2 , float dt)
 			(*playerId)->currentPos = (*playerId)->lastPos;
 	}
 
+	//TODO 9: Call the TriggerCollisionCallback if c2->type is COLLIDER_EVENT.
+	//If return false, call StepCollisionCallback (give both c2 as an argument)
 	if (c2->type == COLLIDER_EVENT)
 	{
 		if(App->quest->TriggerCollisionCallback(c2) == false)
 			App->quest->StepCollisionCallback(c2);
 	}
+
+	
 
 	return true;
 }

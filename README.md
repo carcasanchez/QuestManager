@@ -236,7 +236,7 @@ If c2->type is a COLLIDER_EVENT, call the CollisionTriggerCallback and give it c
 Do you want to add more event types? Remember:
 * You must create another case in the EVENT_TYPE enum and a class for the event. Give it the correct number in the xml.
 * You must specify the data you will store in the XML, and what will the CreateEvent method do with this data.
-* Create Trigger and StepCallbacks for this event. How their recognice if the event has been completed, and from where they are called?
+* Create Trigger and StepCallbacks for this event. How their recognize if the event has been completed, and from where they are called?
 
 You can tweak and experiment with the system as you want. Try adding fail states to the quests, activating new quests as reward for other quests, or mixing various types of event inside the same quest. The sky is the limit now!
 

@@ -13,7 +13,7 @@ j1QuestManager::j1QuestManager() : j1Module()
 
 j1QuestManager::~j1QuestManager()
 {
-	//TODO: Clear the three Quest lists to avoid memory leaks
+	
 	for (std::list <Quest*>::iterator it = sleepQuests.begin(); it != sleepQuests.end(); it++)
 		sleepQuests.erase(it);
 

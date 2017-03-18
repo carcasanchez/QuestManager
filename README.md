@@ -22,7 +22,9 @@ Don't worry if it seems a little overwhelming: we will go step by step.
 
 # Resources
 Our game is a Zelda-esque adventure, controlled with WASD. Don't blame the map so much: it's enough for what we will doing here.   
-You can download the Handout with TODO's, ready to complete, from here. Also, you can find a Release with the system fully working here, in case that you want to see the result.   
+
+You can download the Handout with TODO's, ready to complete, from here. If you run it, you will see a simple map, with zones in green and red. This is the collision debug mode, and you can turn it off pressing the F1 button (although I don't reccomend to do so, because you will need the debug mode to see the colliders).   
+Also, you can find a Release with the system fully working here, in case that you want to see the result. The quest trigger is the collider at the top, the next step is the next collider below, and the last step is the lowest. After complete the mission, the gold will be displayed in the screen.        
 Last, you can download the entire repositorie. The TODO's are still marked, but the code is complete. If you are stuck in one TODO, you can see the solution from it.
 
 
@@ -146,7 +148,7 @@ Since we want to check if some Collider has been hit, we have the Collision_Trig
 Be careful when checking Events in Callbacks! Be sure that, before accesing the Event data, its type is the correct.
 
 # Creating quests from a XML file
-This is the XML I'm using in this case: 
+This is the XML I'm using in this case, stored in "Motor2D/Game/data.zip/quests": 
 
 ```
 <!-- Quest Data -->
@@ -185,7 +187,8 @@ This is the XML I'm using in this case:
 
 </quests>
 ```
-As you see, I have two different quests, with two steps each one. During the first loop of the program, it loads this XML and automatically created one Quest for each one that is written in the text file, and stores them in the Sleep list. Also, there's a method, called CreateEvent, that receives the type of event we want to create. Another time, you must make a case for each type of event, since the info received is different for each one. I have marked each Trigger and Step with a "type = 0", because the CollisionEvent type has value 0 inside the enum. Make sure that our code has a way to recognize what type of event each Trigger and Step is.   
+As you see, I have two different quests, with two steps each one (written in order of execution), but you can add any amount of quests amd steps as you wish.   
+During the first loop of the program, it loads this XML and automatically created one Quest for each one that is written in the text file, and stores them in the Sleep list. Also, there's a method, called CreateEvent, that receives the type of event we want to create. Another time, you must make a case for each type of event, since the info received is different for each one. I have marked each Trigger and Step with a "type = 0", because the CollisionEvent type has value 0 inside the enum. Make sure that our code has a way to recognize what type of event each Trigger and Step is.   
 In our ColliderEvents, the only stored data are four integers (x, y, w, and h). In the CreateEvent method, the CollisionManager receives this numbers and creates a Collider that will be linked to the Event we are created.   
 Coming back to the NPC-Talk example, the CreateEvent could receive the Id of the NPC, search it and store it's direction inside the Event.    
 
@@ -193,4 +196,50 @@ Coming back to the NPC-Talk example, the CreateEvent could receive the Id of the
 
 Let's dive into the TODO's. TODO's are comments placed in primordial segments of code, and give in instructions to make the system work. Search them with ctrl+SHIFT+F and go in order.
 
-### TODO 1
+## Before writting any code
+### TODO 1: Fill the XML with data.
+Go to questData.xml. Although you can create all the quests with all the steps you want, I suggest you to start with one quest with one step (and the trigger, of course). Remeber to put the event type in each one (in this case, "0", since we only have one type). Be careful when setting x and y values, because the collider can fall outside the map or inside a wall. The values given above are all valid.
+
+## CreateEvent method
+This method receives a xml node containing the Event's data. From here, it extracts the Event's type, and creates the corresponding event.
+### TODO 2: Create a new CollisionEvent
+No mistery. Make a new to the "ret" pointer, passing it COLLISION_EVENT and Voilà.
+### TODO 3: Create the collider 
+After making "ret" exist, fill it's "col" variable with the collider that returns the method AddCollider, located in  App->collisions. The methods receives the rect we have extracted from the XML, and the type of collider you want to create (in this case, give it a EVENT_COLLIDER).
+
+## Create the events
+
+### TODO 4: Create an event for the Trigger
+We are inside a loop, used to create each quest written in the XML. We have a new_quest pointer, with the Id and the Reward variables already filled. We must provide it with a Trigger, using our brand new CreateEvent method. CreateEvent need a xml_node with the event data, so give it 'quest.child("trigger")' as an argument.
+### TODO 5: Create steps
+Same as the previous TODO, but with a difference: we must create one event for each Step stored in the XML. Give createElement the "step" node, and store the returned value inside the "Steps" vector of "new_quest".
+### TODO 6: Store the new quest inside the sleepQuest list
+Do you know how to store data in a vector, right?  
+
+
+## Create the Callbacks
+Remember: we have two callback methods (one for triggers and one for steps) for each event type. Now, we use Collision Callbacks, that receives the EVENT_COLLIDER that has been hit.   
+### TODO 7: In the CollisionTriggerCallback, check if the Trigger is triggered, and activate the quest.
+Now, we will iterate all quests and checking all it's triggers. Since we only have one event type, this won't be a problem, but remember to ensure that the event type we are cheking is a COLLISION_EVENT before checking it's collider! Compare each trigger collider to the given and move the quest to the Active list if the comparison gives true. 
+### TODO 8: In the CollisionStepCallback, check if the first Step is triggered.
+Same as with triggers, but we access to the first step of the steps vector of the quest. One more time, erase the first step if it has the same collider as the given in the argument.    
+Below, you will see the code that closes the quest if there's no more steps left in the quest. If you want to create more rewards, probably create a method that checks what reward the quest has and actues in consequence will be a good idea.   
+
+## Calling the Callbacks
+The magic touch here is know where and when the callbacks should be called. In our case, it's relatively easy: when the player hits a collider of type EVENT.
+
+### TODO 9: Call both callbacks
+If c2->type is a COLLIDER_EVENT, call the CollisionTriggerCallback and give it c2 as an argument. If returns false, it means that this collider is a Step, so we call the CollisionStepCallback (with c2 argument).
+
+
+# Expanding
+Do you want to add more event types? Remember:
+* You must create another case in the EVENT_TYPE enum and a class for the event. Give it the correct number in the xml.
+* You must specify the data you will store in the XML, and what will the CreateEvent method do with this data.
+* Create Trigger and StepCallbacks for this event. How their recognice if the event has been completed, and from where they are called?
+
+You can tweak and experiment with the system as you want. Try adding fail states to the quests, activating new quests as reward for other quests, or mixing various types of event inside the same quest. The sky is the limit now!
+
+# Farewell
+I hope I've been useful or, at least, entertaining with this little tutorial. Follow me on Github and ask me any question you have about this manager.    
+Since then, I have been Carlos, and I hope to see you soon.

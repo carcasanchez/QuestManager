@@ -68,7 +68,7 @@ Class QuestManager : public Module
 
 
 # Introducing the concept of Event
-Quest managing is all about checking. But, ¿checking what and when? Here's the Event class.     
+Quest managing is all about checking. But, ¿checking what and when? Here's the **Event class**.     
 The Event is the atomic factor with we will work. The event by itself ony has one variable: an enum with the type of event it is.    
 The magic comes with the heritage. By creating child classes of Event, we have the specific tools we need to check everithing we want to check.    
 
@@ -114,11 +114,11 @@ If you take a look to the Module class, you will see a cute function called OnCo
 There are two thing that we want to check: the Trigger and the Steps (both of them, part of the QuestManager class).   
 Why we separate both in different variables and use different Callbacks? Because we want to do different things which each one. 
 
-Trigger Callback iterates the Sleep list, cheking the Trigger variable of each Quest and, if the conditions are happening, move that Quest to the Active list. 
-Step Callback does that with the Active list, but cheking the first of the Steps (formely, the current objective inside that quest). If that Step happens to be triggered, we remove it from the vector. Then, if there's no more steps in the vector, we move the quest to the Closed list and add the gold reward to the player pocket.   
-The Closed list is never iterated. Sorry, Closed list. Maybe you will found a better place in different modules.   
+* Trigger Callback iterates the Sleep list, cheking the Trigger variable of each Quest and, if the conditions are happening, move that Quest to the Active list. 
+* Step Callback does that with the Active list, but cheking the first of the Steps (formely, the current objective inside that quest). If that Step happens to be triggered, we remove it from the vector. Then, if there's no more steps in the vector, we move the quest to the Closed list and add the gold reward to the player pocket.   
+* The Closed list is never iterated. Sorry, Closed list. Maybe you will found a better place in different modules.   
    
-Important: each type of Event demands different checks, so we need two different Callbacks (Trigger and Step) for every type of event we have created.   
+**Important: each type of Event demands different checks, so we need two different Callbacks (Trigger and Step) for every type of event we have created.**   
 
 Take this example:
 

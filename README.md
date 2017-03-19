@@ -7,11 +7,13 @@ The purpose of the system is to automatically create sequences of events from th
 This web works as documentation and as tutorial. You can download an incomplete code with TODO's as an exercise, a .exe with the final result, and the complete code.
 
 # Resources
-Our game is a Zelda-esque adventure, controlled with WASD. The quest displayed is simple: go to the upper red rectangle, then go to the lower, then to the last one. After complete the three steps, you will receive gold as a reward. Yurn off the debug with F1 (although I don't reccomend to do so, because you will need the debug mode to see the rectangles).   
+Our game is a Zelda-esque adventure, controlled with WASD. The quest displayed is simple: go to the upper red rectangle, then go to the lower, then to the last one. After complete the three steps, you will receive gold as a reward. Turn off the debug with F1 (although I don't reccomend to do so, because you will need the debug mode to see the rectangles).   
 
-[Handout with TODO's](https://github.com/carcasanchez/QuestManager/releases/tag/v2)     
-[Exe with the system fully working](https://github.com/carcasanchez/QuestManager/releases/tag/v1)   
-[Entire repository with code solution](https://github.com/carcasanchez/QuestManager)   
+![](https://fotos.subefotos.com/b36405d8f96574f9a58410f92753d0f4o.png)   
+
+### [Handout with TODO's](https://github.com/carcasanchez/QuestManager/releases/tag/v2)    
+### [Exe with the system fully working](https://github.com/carcasanchez/QuestManager/releases/tag/v1)   
+### [Entire repository with code solution](https://github.com/carcasanchez/QuestManager)   
 
 
 ## Code organization
@@ -49,9 +51,11 @@ And, don't be confused with the Id: that's only a number to identify the quest i
 
 # The Quest Manager Module
 There's no so much difficulty here. The Manager inherits from class Module (as the rest of the Managers), stores all quests and organizes them.   
+
 We will return later, but there's an important concept: the Three Quest Lists.   
 Weren't you wondering why Quests don't have a Type variable by themselves? Well, we don't need it (by now). The manager has three Quest lists, one for each type (Sleep, Active and Closed). Initially, all are stored in the Sleep list. When player activates one quest, the manager moves it to the Active list, and same when a quest is completed.  
-By this metod, we avoid future overlapping errors and save time by iterating only one quest type at time.
+
+Doing this, we avoid future overlapping errors and save time by iterating only one quest type at time.
 
 ```
 Class QuestManager : public Module     
@@ -179,8 +183,9 @@ This is the XML I'm using in this case, stored in "Motor2D/Game/data.zip/quests"
 
 </quests>
 ```
-As you see, I have two different quests, with two steps each one (written in order of execution), but you can add any amount of quests amd steps as you wish.   
+As you see, I have two different quests, with two steps each one (written in order of execution), but you can add any amount of quests and steps as you wish.   
 During the first loop of the program, it loads this XML and automatically created one Quest for each one that is written in the text file, and stores them in the Sleep list. Also, there's a method, called CreateEvent, that receives the type of event we want to create. Another time, you must make a case for each type of event, since the info received is different for each one. I have marked each Trigger and Step with a "type = 0", because the CollisionEvent type has value 0 inside the enum. Make sure that our code has a way to recognize what type of event each Trigger and Step is.   
+
 In our ColliderEvents, the only stored data are four integers (x, y, w, and h). In the CreateEvent method, the CollisionManager receives this numbers and creates a Collider that will be linked to the Event we are created.   
 Coming back to the NPC-Talk example, the CreateEvent could receive the Id of the NPC, search it and store it's direction inside the Event.    
 

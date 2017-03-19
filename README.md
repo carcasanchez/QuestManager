@@ -2,31 +2,23 @@
 
 ## Introduction: a design quest-ion
 Hello there.   
-I'm Carlos, game develop student, and former leader of the amateur DuckDev team.   
-Let's talk about the Quest managing in videogames.   
-Quest managing is a constant interrogant in gamedev forums. There's a lot of questions about quest managing, and even worse: there's a lot of answers. We have no magical algorithm of how to make the perfect quest system, as the needs of each game are different.  
+I'm Carlos, game develop student, former leader of the amateur DuckDev team, and i have been working on a C++ data-driven Quest Manager for videogames.     
+The purpose of the system is to automatically create sequences of events from the data written in a XML file, allowing the designers to work and iterate quickly without touching any code. The system can be expanded easily to cover any design necessity in your game.   
+This web works as documentation and as tutorial. You can download an incomplete code with TODO's as an exercise, a .exe with the final result, and the complete code.
 
-I have done some little research work for my project, and I think i'm ready to share my new acquired knowledge.   
+# Resources
+Our game is a Zelda-esque adventure, controlled with WASD. The quest displayed is simple: go to the upper red rectangle, then go to the lower, then to the last one. After complete the three steps, you will receive gold as a reward. Yurn off the debug with F1 (although I don't reccomend to do so, because you will need the debug mode to see the rectangles).   
 
-I have prepared a little tutorial of my approach to this problem. Although It only covers a very specific scenario, the great advantage (I guess) of the system I've built is it's scalability: you can expand it to reach every field you need for your game.   
-Another goal of this system is being data-driven. By modifying a simple xml file, you can custom existing quests and add new ones, without even open the code.   
-Disclaimer: This is a code tutorial. I won't talk about quest design and filosophy. That is a complete different field that I will last for years if I want to cover it. There's a lot of useful and inspiring videos and articles about quest design. I only focus in how make quests work.  
-Let's stop talking. Let's start working.
+[Handout with TODO's](https://github.com/carcasanchez/QuestManager/releases/tag/v2)     
+[Exe with the system fully working](https://github.com/carcasanchez/QuestManager/releases/tag/v1)   
+[Entire repository with code solution](https://github.com/carcasanchez/QuestManager)   
+
 
 ## Code organization
 This tutorial is built in C++. The solution is from Visual Studio, but you can work with it in other software if you take the .h and .cpp files in the Motor2D folder.
 The code is separated in different Modules that works in different areas (one for the renderer, other for the entities...). The Quest Manager is a module itself.  
 There's a extern pointer, called App, from you can access each module.   
 Don't worry if it seems a little overwhelming: we will go step by step. 
-
-
-# Resources
-Our game is a Zelda-esque adventure, controlled with WASD. Don't blame the map so much: it's enough for what we will doing here.   
-
-You can download the Handout with TODO's, ready to complete, from [here](https://github.com/carcasanchez/QuestManager/releases/tag/v2). If you run it, you will see a simple map, with zones in green and red. This is the collision debug mode, and you can turn it off pressing the F1 button (although I don't reccomend to do so, because you will need the debug mode to see the colliders).   
-Also, you can find a Release with the system fully working [here](https://github.com/carcasanchez/QuestManager/releases/tag/v1), in case that you want to see the result. The quest trigger is the collider at the top, the next step is the next collider below, and the last step is the lowest. After complete the mission, the gold will be displayed in the screen.        
-Last, you can download the [entire repository](https://github.com/carcasanchez/QuestManager). The TODO's are still marked, but the code is complete. If you are stuck in one TODO, you can see the solution from it.
-
 
 # Intro to the system
 The first point we need to make is concrete our quest design. What states our quests have? How many types of quest we have? Can we complete the quest in different ways? How a quest is completed, and what happens then? Templatize our quests and following a pattern is important. 

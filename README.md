@@ -9,8 +9,6 @@ This web works as documentation and as tutorial. You can download an incomplete 
 # Resources
 Our game is a Zelda-esque adventure, controlled with WASD. The quest displayed is simple: go to the upper red rectangle (1), then go to the lower (2), then to the last one (3). After complete the three steps, you will receive gold as a reward. Turn off the debug with F1 (although I don't reccomend to do so, because you will need the debug mode to see the rectangles).   
 
-# prueba
-![](https://fotos.subefotos.com/b043f1e01de16d1a3a53f2c0e3808236o.gif)   
 
 ### [Handout with TODO's](https://github.com/carcasanchez/QuestManager/releases/tag/v2)    
 ### [Exe with the system fully working](https://github.com/carcasanchez/QuestManager/releases/tag/v1)   
